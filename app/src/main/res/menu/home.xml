@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="info.ciolek.bookweb.HomeActivity">
+    <item android:id="@+id/action_about" android:title="@string/about"
+        android:icon="@drawable/ic_star"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_scanner" android:title="@string/scanner"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_search" android:title="@string/search"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>
