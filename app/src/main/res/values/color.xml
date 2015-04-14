@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2188a8</color>
+    <color name="colorPrimaryDark">#126179</color>
+    <color name="colorAccent">#2aabd2</color>
+    <color name="colorBookRow">#c6f2ff</color>
+</resources>
