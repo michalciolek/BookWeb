@@ -19,12 +19,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public CommentAdapter() {
         commentList = new Comment.List();
-
-        commentList.add(new Comment(0,"afq43r","14.04.2015", "Alina", "Fajna książka"));
-        commentList.add(new Comment(1,"afer3r","14.04.2015", "Marcin", "Lubię książki"));
-        commentList.add(new Comment(2,"ertyq43r","14.04.2015", "Wojtek", "Jak się czujesz po przeczytaniu? Dobrze.."));
-        commentList.add(new Comment(3,"aery3r","14.04.2015", "Tadeusz", "Matematyka to moja pasja"));
-        commentList.add(new Comment(4,"afqerty","14.04.2015", "Alina", "Nie lubię tej książki"));
     }
 
     @Override
@@ -60,4 +54,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentTextView = (TextView) itemView.findViewById(R.id.commentTextView);
         }
     }
+
+   public void addNewComments(Comment.List newComments) {
+       commentList.clear();
+       commentList.addAll(newComments);
+       notifyDataSetChanged();
+   }
 }

@@ -2,18 +2,25 @@ package info.ciolek.bookweb;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
+
+import info.ciolek.bookweb.models.Comment;
+import info.ciolek.bookweb.network.CommentsRequest;
+import info.ciolek.bookweb.network.InternetFragment;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends InternetFragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -22,6 +29,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CommentAdapter commentAdapter;
+
     /**
      * Returns a new instance of this fragment for the given section
      * number.
@@ -35,6 +43,25 @@ public class HomeFragment extends Fragment {
     }
 
     public HomeFragment() {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        CommentsRequest commentsRequest = new CommentsRequest();
+
+        spiceManager.execute(commentsRequest, new RequestListener<Comment.List>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                Toast.makeText(getActivity(), "Jest błąd!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRequestSuccess(Comment.List comments) {
+                commentAdapter.addNewComments(comments);
+            }
+        });
     }
 
     @Override
