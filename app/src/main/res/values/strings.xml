@@ -24,4 +24,8 @@
 
     <string name="search">Wyszukaj</string>
     <string name="scanner">Skaner</string>
+    <string name="title_activity_create_new_comment">CreateNewCommentActivity</string>
+    <string name="author">Autor</string>
+    <string name="comment">Komentarz</string>
+    <string name="send">Wyślij</string>
 </resources>
