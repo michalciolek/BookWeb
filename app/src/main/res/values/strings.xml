@@ -1,31 +1,34 @@
 <resources>
     <string name="app_name">BookWeb</string>
-    <string name="title_activity_about">AboutActivity</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">Strona główna</string>
 
     <string name="title_section1">BookWeb</string>
     <string name="title_section2">Matematyka</string>
     <string name="title_section3">Informatyka</string>
-    <string name="title_section4">Elekronika</string>
+    <string name="title_section4">Elektronika</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_example">Example action</string>
-    <string name="authors">Autor aplikacji: Michał</string>
-    <string name="hello">Witaj świecie!</string>
-    <string name="read_book">Czytaj książki</string>
-    <string name="next">OK, Dalej!</string>
+    <string name="navigation_drawer_open">Otwórz nawigację</string>
+    <string name="navigation_drawer_close">Zamknij nawigację</string>
     <string name="about">O programie</string>
-    <string name="title_activity_search">SearchActivity</string>
+    <string name="about_text">Aplikacja do komentowania książek.</string>
+    <string name="version_name">Wersja 1.0</string>
+    <string name="authors">Autorzy:</string>
+    <string name="author1">Michał Ciołek</string>
+    <string name="title_activity_tutorial">Tutorial</string>
+    <string name="hello">Witaj</string>
 
-    <string name="search">Wyszukaj</string>
-    <string name="scanner">Skaner</string>
-    <string name="title_activity_create_new_comment">CreateNewCommentActivity</string>
+    <string name="title_activity_book">Książka</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="add_comment">Dodaj komentarz</string>
+    <string name="title_activity_create_comment">Nowy komentarz</string>
     <string name="author">Autor</string>
     <string name="comment">Komentarz</string>
     <string name="send">Wyślij</string>
+    <string name="title_activity_search_book">Wyszukiwarka</string>
+    <string name="search">Szukaj</string>
+    <string name="loading">Ładowanie...</string>
+
 </resources>

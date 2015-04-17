@@ -1,11 +1,12 @@
 package info.ciolek.bookweb;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,8 +14,12 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import info.ciolek.bookweb.fragments.book.BooksSearchFragment;
+import info.ciolek.bookweb.fragments.comment.CommentsAllFragment;
+import info.ciolek.bookweb.network.NetworkActivity;
 
-public class HomeActivity extends ActionBarActivity
+
+public class HomeActivity extends NetworkActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -30,7 +35,9 @@ public class HomeActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -44,30 +51,36 @@ public class HomeActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, HomeFragment.newInstance(position + 1))
-                .commit();
-    }
+        Fragment fragment;
 
-    public void onSectionAttached(int number) {
-        switch (number) {
+        switch (position) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_section2);
+                fragment = BooksSearchFragment.newInstance("Matematyka");
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_section3);
+                fragment = BooksSearchFragment.newInstance("Informatyka");
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_section4);
+                fragment = BooksSearchFragment.newInstance("Elektronika");
+                break;
+
+            default:
+                mTitle = getString(R.string.title_section1);
+                fragment = CommentsAllFragment.newInstance();
                 break;
         }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
     }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
@@ -95,32 +108,21 @@ public class HomeActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
-            //
             Intent intent = new Intent(this, AboutActivity.class);
-
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_search) {
-            ///
-            Intent intent = new Intent(this, SearchActivity.class);
-
             startActivity(intent);
             return true;
         } else if (id == R.id.action_scanner) {
             IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-            integrator.setPrompt("Zeskanuj kod kreskowy z książki!");
+            integrator.setPrompt("Skanuj ISBN");
             integrator.setResultDisplayDuration(0);
+            integrator.setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
             integrator.setWide();  // Wide scanning rectangle, may work better for 1D barcodes
             integrator.setCameraId(0);  // Use a specific camera of the device
             integrator.initiateScan();
-            return true;
-        } else if (id == R.id.action_new) {
-            Intent intent = new Intent(this, CreateNewCommentActivity.class);
-
+        } else if (id == R.id.action_search) {
+            Intent intent = new Intent(this, SearchBookActivity.class);
             startActivity(intent);
-
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -128,19 +130,22 @@ public class HomeActivity extends ActionBarActivity
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
-
-            String toast;
             if (result.getContents() == null) {
-                toast = "Cancelled from fragment";
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                toast = "Scanned from fragment: " + result.getContents();
-            }
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
 
-            // At this point we may or may not have a reference to the activity
-            Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, SearchBookActivity.class);
+                intent.putExtra("text", result.getContents());
+
+                startActivity(intent);
+            }
+        } else {
+            // This is important, otherwise the result will not be passed to the fragment
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
